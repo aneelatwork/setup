@@ -1,0 +1,37 @@
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'https://github.com/Valloric/YouCompleteMe.git'
+
+call vundle#end()
+
+filetype indent plugin on
+syntax on
+colorscheme peachpuff
+set showcmd
+set hlsearch
+set ignorecase
+set smartcase
+set backspace=indent,eol,start
+set nostartofline
+set ruler
+set laststatus=2
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set tags=./tags;
+
+set wildmenu
+set wildmode=longest:list,full
+
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let mapleader=" "
+nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>g :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>f :YcmCompleter FixIt<CR>
