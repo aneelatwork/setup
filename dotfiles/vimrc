@@ -13,6 +13,8 @@ call vundle#end()
 filetype indent plugin on
 syntax on
 colorscheme peachpuff
+set cindent
+set cinoptions=:0,g0,l1
 set showcmd
 set hlsearch
 set ignorecase
