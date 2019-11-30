@@ -1,0 +1,58 @@
+#!/bin/bash
+
+cd $HOME
+mkdir env
+mkdir src
+mkdir build
+mkdir data
+mkdir ros
+mkdir -p .vim/bundle
+
+mv Desktop env/desktop
+mv Downloads download
+mv Documents data/doc
+mv Music data/audio
+mv Pictures data/image
+mv Public data/share
+mv Templates mold
+mv Videos data/video
+
+cat > .config/user-dirs.dirs <<EOF
+# This file is written by xdg-user-dirs-update
+# If you want to change or add directories, just edit the line you're
+# interested in. All local changes will be retained on the next run.
+# Format is XDG_xxx_DIR="\$HOME/yyy", where yyy is a shell-escaped
+# homedir-relative path, or XDG_xxx_DIR="/yyy", where /yyy is an
+# absolute path. No other format is supported.
+# 
+XDG_DESKTOP_DIR="\$HOME/env/desktop"
+XDG_DOWNLOAD_DIR="\$HOME/download"
+XDG_TEMPLATES_DIR="\$HOME/mold"
+XDG_PUBLICSHARE_DIR="\$HOME/data/share"
+XDG_DOCUMENTS_DIR="\$HOME/data/documents"
+XDG_MUSIC_DIR="\$HOME/data/audio"
+XDG_PICTURES_DIR="\$HOME/data/image"
+XDG_VIDEOS_DIR="\$HOME/data/video"
+EOF
+
+sudo apt --yes purge qtpass texinfo noblenote libreoffice-* 2048-qt skanlite bluedevil transmission-gtk quassel trojita vlc k3b
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt --yes install build-essential cmake python-dev vim git keepass2 xdotool cmake-curses-gui libeigen3-dev libopencv-dev libopencv-highgui-dev python3-pip ros-melodic-desktop
+sudo apt update
+sudo apt --yes upgrade
+sudo rosdep init
+rosdep update
+
+git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+cd env
+git clone git@github.com:aneelatwork/setup.git
+ln -s $HOME/env/setup/dotfiles/vimrc $HOME/.vimrc
+vim +PluginInstall +qall
+
+cd ~/.vim/bundle/YouCompleteMe
+python3 install.py --clangd-completer
+
+cd $HOME
+git config --global user.email 'aneelatwork@gmail.com'
+git config --global user.name 'Aneel Rathore'
