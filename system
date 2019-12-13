@@ -7,6 +7,9 @@ mkdir build
 mkdir data
 mkdir ros
 mkdir -p .vim/bundle
+mkdir -p api/src
+mkdir -p api/build
+mkdir -p api/ros
 
 mv Desktop env/desktop
 mv Downloads download
@@ -35,11 +38,19 @@ XDG_PICTURES_DIR="\$HOME/data/image"
 XDG_VIDEOS_DIR="\$HOME/data/video"
 EOF
 
+cat >> $HOME/.bashrc <<EOF
+
+alias cds='cd $HOME/src'
+alias cdb='cd $HOME/build'
+alias cdr='cd $HOME/ros'
+alias srcr='source /opt/ros/melodic/setup.bash'
+EOF
+
 sudo apt --yes purge simple-scan mtpaint pidgin qtpass texinfo noblenote libreoffice-* 2048-qt skanlite bluedevil transmission-gtk transmission-common sylpheed abiword gnumeric audacious gnome-mpv guvcview xfburn quassel trojita vlc k3b
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt update
-sudo apt --yes install build-essential cmake python-dev vim git keepass2 xdotool cmake-curses-gui libeigen3-dev libopencv-dev libopencv-highgui-dev python3-pip ros-melodic-desktop
+sudo apt --yes install build-essential cmake python-dev vim git keepass2 xdotool cmake-curses-gui libeigen3-dev libopencv-dev libopencv-highgui-dev python3-pip ros-melodic-desktop gdb tree
 sudo apt --yes upgrade
 sudo rosdep init
 rosdep update
