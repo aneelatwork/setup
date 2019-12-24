@@ -1,0 +1,12 @@
+#!/bin/bash
+
+absolute_src_dir=$( pwd )
+relative_src_dir=$( sed "s|^$HOME/src/||g" <<< "$absolute_src_dir"  )
+absolute_bld_dir="$HOME/build/$relative_src_dir"
+
+if [[ $1 =~ t ]]; then mkdir -p $absolute_bld_dir; fi
+cd $absolute_bld_dir
+if [[ $1 =~ c ]]; then cmake $absolute_src_dir; fi
+if [[ $1 =~ b ]]; then make -j 4; fi
+if [[ $1 =~ i ]]; then sudo make install; fi
+

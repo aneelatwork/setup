@@ -40,10 +40,11 @@ EOF
 
 cat >> $HOME/.bashrc <<EOF
 
-alias cds='cd $HOME/src'
-alias cdb='cd $HOME/build'
-alias cdr='cd $HOME/ros'
-alias srcr='source /opt/ros/melodic/setup.bash'
+alias cds="cd $HOME/src"
+alias cdb="cd $HOME/build"
+alias cdr="cd $HOME/ros"
+alias srcr="source /opt/ros/melodic/setup.bash"
+alias mk="cd $HOME/build && make -j 4 && sudo make install"
 EOF
 
 sudo apt --yes purge simple-scan mtpaint pidgin qtpass texinfo noblenote libreoffice-* 2048-qt skanlite bluedevil transmission-gtk transmission-common sylpheed abiword gnumeric audacious gnome-mpv guvcview xfburn quassel trojita vlc k3b
@@ -72,3 +73,6 @@ cd /usr/src/gtest
 sudo cmake CMakeLists.txt
 sudo make
 sudo cp *.a /usr/lib/
+
+sudo cp "$HOME/env/setup/build/mk" "/usr/local/bin/mk"
+
