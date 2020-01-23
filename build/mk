@@ -1,12 +1,31 @@
 #!/bin/bash
 
-absolute_src_dir=$( pwd )
-relative_src_dir=$( sed "s|^$HOME/src/||g" <<< "$absolute_src_dir"  )
-absolute_bld_dir="$HOME/build/$relative_src_dir"
+function say() { echo "$scriptname: $@" >&2; }
+function die() { say "$@"; exit 1; }
+function bye() { say "$@"; exit 0; }
 
-if [[ $1 =~ t ]]; then mkdir -p $absolute_bld_dir; fi
-cd $absolute_bld_dir
-if [[ $1 =~ c ]]; then cmake $absolute_src_dir; fi
+declare scriptname=$( basename "$0" )
+declare rep_dir=$( pwd )
+while [[ ! -d "$rep_dir/.git" && "$rep_dir" != "/" ]]; do rep_dir=$( dirname "$rep_dir" ); done
+[[ -d "$rep_dir/.git" ]] || die "current directory is not git repository."
+say "repository directory is '$rep_dir'."
+
+declare src_dir=$rep_dir
+while [[ $( basename "$src_dir" ) != "src" && "$src_dir" != "/" ]]; do src_dir=$( dirname "$src_dir" ); done
+[[ $( basename "$src_dir" ) == "src" ]] || die "repository must be under directory named 'src'."
+say "'src' directory is '$src_dir'."
+
+declare bld_dir=$( dirname "$src_dir" )
+bld_dir="$bld_dir/build"
+[[ -d "$bld_dir" ]] || die "there must be a 'build' directory with the 'src' directory."
+bld_dir="$bld_dir/$( sed -e "s!^$src_dir/!!g" <<< "$rep_dir" )"
+say "build directory is '$bld_dir'."
+
+if [[ $1 =~ t ]]; then mkdir -p "$bld_dir"; fi
+(
+cd "$bld_dir"
+if [[ $1 =~ c ]]; then cmake "$rep_dir"; fi
 if [[ $1 =~ b ]]; then make -j 4; fi
 if [[ $1 =~ i ]]; then sudo make install; fi
+)
 
