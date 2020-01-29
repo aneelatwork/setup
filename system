@@ -2,11 +2,11 @@
 
 cd $HOME
 mkdir env
-mkdir src
-mkdir build
 mkdir data
-mkdir ros
 mkdir -p .vim/bundle
+mkdir -p work/src
+mkdir -p work/build
+mkdir -p work/ros
 mkdir -p api/src
 mkdir -p api/build
 mkdir -p api/ros
@@ -40,9 +40,9 @@ EOF
 
 cat >> $HOME/.bashrc <<EOF
 
-alias cds="cd $HOME/src"
-alias cdb="cd $HOME/build"
-alias cdr="cd $HOME/ros"
+alias cds="cd $HOME/work/src"
+alias cdb="cd $HOME/work/build"
+alias cdr="cd $HOME/work/ros"
 alias srcr="source /opt/ros/melodic/setup.bash"
 EOF
 
