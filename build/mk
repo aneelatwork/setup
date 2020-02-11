@@ -1,25 +1,10 @@
 #!/bin/bash
 
-function say() { echo "$scriptname: $@" >&2; }
-function die() { say "$@"; exit 1; }
-function bye() { say "$@"; exit 0; }
+source $( type -p raks-setup-build-include )
 
-declare scriptname=$( basename "$0" )
-declare rep_dir=$( pwd )
-while [[ ! -d "$rep_dir/.git" && "$rep_dir" != "/" ]]; do rep_dir=$( dirname "$rep_dir" ); done
-[[ -d "$rep_dir/.git" ]] || die "current directory is not git repository."
-say "repository directory is '$rep_dir'."
-
-declare src_dir=$rep_dir
-while [[ $( basename "$src_dir" ) != "src" && "$src_dir" != "/" ]]; do src_dir=$( dirname "$src_dir" ); done
-[[ $( basename "$src_dir" ) == "src" ]] || die "repository must be under directory named 'src'."
-say "'src' directory is '$src_dir'."
-
-declare bld_dir=$( dirname "$src_dir" )
-bld_dir="$bld_dir/build"
-[[ -d "$bld_dir" ]] || die "there must be a 'build' directory with the 'src' directory."
-bld_dir="$bld_dir/$( sed -e "s!^$src_dir/!!g" <<< "$rep_dir" )"
-say "build directory is '$bld_dir'."
+declare rep_dir bld_dir
+rep_dir="$( raks_setup_rep_dir "$( pwd )" )" || die "current directory is not in a git repository."
+bld_dir="$( raks_setup_bld_dir "$rep_dir" )" || exit 1
 
 if [[ $1 =~ t ]]; then mkdir -p "$bld_dir"; fi
 (

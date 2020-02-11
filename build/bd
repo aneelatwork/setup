@@ -1,0 +1,43 @@
+#!/bin/bash
+
+source $( type -p raks-setup-build-include )
+
+declare rep_dir bld_dir src_dir
+declare rep_name found_dir
+
+if [[ -n $1 ]]
+then
+    if [[ -n $2 ]]
+    then
+        top_dir="$1"
+        rep_name="$2"
+    else
+        top_dir="$HOME/work"
+        rep_name="$1"
+    fi
+    rep_dir=()
+    found_dir=( $( find "$top_dir/src" -name "$rep_name" ) )
+    for dir in ${found_dir[@]}
+    do
+        [[ -d "$dir/.git" ]] || continue
+        rep_dir+=( "$dir" )
+    done
+    (( 1 == ${#rep_dir[@]} )) || die "could not find exacly one match for repository named '$rep_name' under '$top_dir'."
+    echo "${rep_dir[0]}"
+
+else
+    declare cur_dir
+    cur_dir="$( pwd )"
+    if grep '/build/' <<< "$cur_dir" &>/dev/null
+    then
+        bld_dir="$( sed -e 's!\(.*/build/\).*!\1!' -e 's!/$!!' <<< "$cur_dir" )"
+        src_dir="$( dirname "$bld_dir" )/src"
+        rep_dir="$src_dir/$( sed "s!^$bld_dir/!!g" <<< "$cur_dir" )"
+        echo "$rep_dir"
+
+    else
+        rep_dir="$( raks_setup_rep_dir "$cur_dir" )" || die "current directory is not in a git repository."
+        bld_dir=$(  raks_setup_bld_dir "$rep_dir" ) || exit 1
+        echo "$bld_dir"
+    fi
+fi

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+[[ -n "$raks_setup_build_include_guard_" ]] && return 0
+readonly raks_setup_build_include_guard_=1
+
+function say() { echo "$scriptname: $@" >&2; }
+function die() { say "Error; $@"; exit 1; }
+function bye() { say "$@"; exit 0; }
+
+
+function raks_setup_rep_dir()
+{
+    local rep_dir="$1"
+    while [[ ! -d "$rep_dir/.git" && "$rep_dir" != "/" ]]; do rep_dir=$( dirname "$rep_dir" ); done
+    [[ -d "$rep_dir/.git" ]] || return 1
+    echo "$rep_dir"
+}
+
+function raks_setup_src_dir()
+{
+    local src_dir=$1
+    while [[ $( basename "$src_dir" ) != "src" && "$src_dir" != "/" ]]; do src_dir=$( dirname "$src_dir" ); done
+    [[ $( basename "$src_dir" ) == "src" ]] || return 1
+    echo "$src_dir"
+}
+
+function raks_setup_bld_dir()
+{
+    local rep_dir=$1
+    local src_dir bld_dir
+    src_dir=$( raks_setup_src_dir "$rep_dir" || exit 1 ) || die "repository must be under directory named 'src'."
+
+    bld_dir="$( dirname "$src_dir" )/build"
+    [[ -d "$bld_dir" ]] || die "there must be a 'build' directory with the 'src' directory."
+    bld_dir="$bld_dir/$( sed -e "s!^$src_dir/!!g" <<< "$rep_dir" )"
+    echo "$bld_dir"
+}
+
+readonly scriptname=$( basename "$0" )

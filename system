@@ -74,5 +74,7 @@ sudo cmake CMakeLists.txt
 sudo make
 sudo cp *.a /usr/lib/
 
-sudo cp "$HOME/env/setup/build/mk" "/usr/local/bin/mk"
+sudo ln -s "$HOME/env/setup/build/raks-setup-build-include" "/usr/local/bin/raks-setup-build-include"
+sudo ln -s "$HOME/env/setup/build/mk" "/usr/local/bin/mk"
+sudo ln -s "$HOME/env/setup/build/bd" "/usr/local/bin/bd"
 
