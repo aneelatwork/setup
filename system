@@ -50,20 +50,21 @@ sudo apt --yes purge simple-scan mtpaint pidgin qtpass texinfo noblenote libreof
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt update
-sudo apt --yes install build-essential cmake python-dev vim git keepass2 xdotool cmake-curses-gui libeigen3-dev libopencv-dev libopencv-highgui-dev python3-pip ros-melodic-desktop gdb tree libgtest-dev
+sudo apt --yes install build-essential cmake python-dev vim git curl keepass2 xdotool cmake-curses-gui libeigen3-dev libopencv-dev libopencv-highgui-dev python3-pip ros-melodic-desktop gdb tree libgtest-dev clangd-9
 sudo apt --yes upgrade
 sudo rosdep init
 rosdep update
 
-git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
+curl -sL install-node.now.sh/lts | sudo bash
+
+#git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 cd env
 #git clone git@github.com:aneelatwork/setup.git
 git clone https://github.com/aneelatwork/setup.git
 ln -s $HOME/env/setup/dotfiles/vimrc $HOME/.vimrc
-vim +PluginInstall +qall
-
-cd $HOME/.vim/bundle/YouCompleteMe
-python3 install.py --clangd-completer
+vim +PlugInstall
 
 cd $HOME
 git config --global user.email 'aneelatwork@gmail.com'
