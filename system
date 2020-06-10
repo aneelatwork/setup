@@ -73,7 +73,7 @@ git config --global user.name 'Aneel Rathore'
 cd /usr/src/gtest
 sudo cmake CMakeLists.txt
 sudo make
-sudo cp *.a /usr/lib/
+sudo cp lib/*.a /usr/lib/
 
 sudo ln -s "$HOME/env/setup/build/raks-setup-build-include" "/usr/local/bin/raks-setup-build-include"
 sudo ln -s "$HOME/env/setup/build/mk" "/usr/local/bin/mk"
