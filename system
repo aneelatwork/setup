@@ -64,7 +64,7 @@ cd env
 #git clone git@github.com:aneelatwork/setup.git
 git clone https://github.com/aneelatwork/setup.git
 ln -s $HOME/env/setup/dotfiles/vimrc $HOME/.vimrc
-vim +PlugInstall
+vim +PlugInstall "+CocInstall coc-clangd" +qall
 
 cd $HOME
 git config --global user.email 'aneelatwork@gmail.com'
