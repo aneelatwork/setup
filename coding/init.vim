@@ -1,9 +1,9 @@
-set nocompatible
-filetype off
+call plug#begin(__nvim_plugin_path__)
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call plug#begin()
-
+Plug 'joshdick/onedark.vim'
+Plug 'iCyMind/NeoSolarized'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
