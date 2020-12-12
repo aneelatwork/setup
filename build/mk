@@ -1,10 +1,8 @@
 #!/bin/bash
 
-source $( type -p raks-setup-build-include )
-
 declare rep_dir bld_dir
-rep_dir="$( raks_setup_rep_dir "$( pwd )" )" || die "current directory is not in a git repository."
-bld_dir="$( raks_setup_bld_dir "$rep_dir" )" || exit 1
+rep_dir="$( bd r )" || exit 1
+bld_dir="$( bd )" || exit 1
 
 if [[ $1 =~ t ]]; then mkdir -p "$bld_dir"; fi
 (
