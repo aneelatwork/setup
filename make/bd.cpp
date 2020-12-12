@@ -65,11 +65,11 @@ int main( int argc, char* argv[] )
             auto [ base, meta, oppo ] = get_context( basedir.filename().string() );
             auto const relative = fs::relative( meta_directory( currdir, meta ), basedir );
             basedir.remove_filename();
-            std::cout << basedir / oppo / relative << std::endl;
+            std::cout << ( basedir / oppo / relative ).string() << std::endl;
             return 0;
         }
-        else if( 'r' == argv[ 1 ][ 0 ] ) { std::cout << meta_directory( fs::current_path(), gsrc_meta  ) << std::endl; return 0; }
-        else if( 'b' == argv[ 1 ][ 0 ] ) { std::cout << base_directory( fs::current_path() ) << std::endl; return 0; }
+        else if( 'r' == argv[ 1 ][ 0 ] ) { std::cout << meta_directory( fs::current_path(), gsrc_meta  ).string() << std::endl; return 0; }
+        else if( 'b' == argv[ 1 ][ 0 ] ) { std::cout << base_directory( fs::current_path() ).string() << std::endl; return 0; }
         usage();
     }
     catch( std::exception& ex )
