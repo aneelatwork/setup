@@ -29,8 +29,9 @@ bld_dir="$( bd )" || exit 1
 if [[ $1 =~ t ]]; then mkdir -p "$bld_dir"; fi
 (
 cd "$bld_dir"
-if [[ $1 =~ c ]]; then cmake "$rep_dir" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON; fi
-if [[ $1 =~ b ]]; then make -j 4; fi
+if [[ $1 =~ p ]]; then conan install "$rep_dir"; fi
+if [[ $1 =~ c || $1 =~ p ]]; then cmake "$rep_dir" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON; fi
+if [[ $1 =~ b ]]; then cmake --build .; cp compile_commands.json "$rep_dir/"; fi
 if [[ $1 =~ i ]]; then sudo make install; fi
 )
 
