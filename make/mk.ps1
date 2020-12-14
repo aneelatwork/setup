@@ -30,12 +30,19 @@ if( $bld_dir -eq $null ) { exit 1 }
 if( $args[0] -like "*t*" ) { md -p "$bld_dir" }
 
 pushd "$bld_dir"
+
 if( $args[ 0 ] -like "*p*" ) { conan install "$rep_dir" }
+
 if( $args[ 0 ] -like "*[p|c]*" )
 {
     cmake "$rep_dir" -G "Ninja" -DCMAKE_INSTALL_PREFIX="${Env:RAKS_WORK_ROOT}" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug
+}
+
+if( $args[ 0 ] -like "*b*" )
+{
+    cmake --build . --config Debug
     cp compile_commands.json "$rep_dir/"
 }
-if( $args[ 0 ] -like "*b*" ) { cmake --build . --config Debug }
+
 if( $args[ 0 ] -like "*i*" ) { cmake --install . }
 popd
