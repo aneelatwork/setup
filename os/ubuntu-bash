@@ -68,6 +68,8 @@ sudo apt --yes upgrade
 sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 curl -sL install-node.now.sh/lts | sudo bash
 
+pip install conan
+
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 src_dir="$HOME/work/src/env"
