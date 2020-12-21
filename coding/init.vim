@@ -1,12 +1,28 @@
-call plug#begin(__nvim_plugin_path__)
+call plug#begin('~/AppData/Local/nvim/plugged')
 
 Plug 'joshdick/onedark.vim'
-Plug 'iCyMind/NeoSolarized'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-syntastic/syntastic'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'rhysd/vim-clang-format'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+" vim-cpp-enhanced-highlight
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_no_function_highlight = 1
+let g:cpp_concepts_highlight = 1
+
+" syntastic
+let g:syntastic_cpp_checkers = [ 'cpplint' ]
+let g:syntastic_c_checkers = [ 'cpplint' ]
+let g:syntastic_cpp_cpplint_exec = 'cpplint.py'
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -93,8 +109,10 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
+nnoremap <leader>f :<C-u>ClangFormat<CR>
+vnoremap <leader>f :<C-u>ClangFormat<CR>
 
 augroup mygroup
   autocmd!
@@ -158,3 +176,4 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+

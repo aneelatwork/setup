@@ -41,7 +41,7 @@ if( $args[ 0 ] -like "*[p|c]*" )
 if( $args[ 0 ] -like "*b*" )
 {
     cmake --build . --config Debug
-    cp compile_commands.json "$rep_dir/"
+    cp "$bld_dir/compile_commands.json" "$rep_dir/compile_commands.json"
 }
 
 if( $args[ 0 ] -like "*i*" ) { cmake --install . }
