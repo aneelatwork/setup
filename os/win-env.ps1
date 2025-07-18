@@ -20,6 +20,14 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
+if(-not $(Test-Path -Path $(Split-Path -Path $PROFILE))) {
+   mkdir $(Split-Path -Path $PROFILE)
+}
+if(-not $(Test-Path -Path $PROFILE)) {
+  'Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete' | Out-File $PROFILE
+}
+
+
 md ~\AppData\Local\nvim\autoload 
 (New-Object Net.WebClient).DownloadFile(
   'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',
@@ -28,33 +36,33 @@ md ~\AppData\Local\nvim\autoload
   )
 )
 
-set raks_work_root 'C:\space\work'
+set raks_work_root "C:\\Space\\work"
 setx RAKS_WORK_ROOT "$raks_work_root"
 
-set raks_src_env "${Env:RAKS_WORK_ROOT}\src\env"
+set raks_src_env "${env:RAKS_WORK_ROOT}\\src\\env"
 md "$raks_src_env"
 cd "$raks_src_env"
 
 git clone https://github.com/aneelatwork/setup.git
 cd setup/coding
-cat init.vim | sed 's!__nvim_plugin_path__!~/AppData/Local/nvim/plugged|g' > '~\AppData\Local\nvim\init.vim'
+Get-Content -Path init.vim -Encoding utf8 | sed "s!__nvim_plugin_path__!~\\AppData\\Local\\nvim\\plugged|g" | Out-File -FilePath '~\\AppData\\Local\\nvim\\init.vim' -Encoding utf8
 nvim +PlugInstall "+CocInstall coc-clangd" "+CocInstall coc-pyright" +qall
 cd ../make
 
-set raks_bld_env "${raks_work_root}\build\env\setup"
+set raks_bld_env "${raks_work_root}\\build\\env\\setup"
 md "$raks_bld_env"
 cd "$raks_bld_env"
 
 
-cmake "$raks_src_env\setup\make" -DCMAKE_INSTALL_PREFIX="$raks_work_root"
+cmake "$raks_src_env\\setup\\make" -DCMAKE_INSTALL_PREFIX="$raks_work_root"
 cmake --build . --config Release
 cmake --install .
 
-set old_path $( reg query HKEY_CURRENT_USER\Environment /v Path | select-object -skip 2 -first 1 | %{ $_.split( " ",[StringSplitOptions]"RemoveEmptyEntries" )[2] } )
-setx Path "${old_path}%RAKS_WORK_ROOT%\bin;"
+set old_path $( [System.Environment]::GetEnvironmentVariable("Path","User") ) + ";" + "$env:RAKS_WORK_ROOT"
+setx Path "${old_path}"
 
 cd ~
-git config --global user.email 'aneelatwork@gmail.com'
-git config --global user.name 'Aneel Rathore'
+git config --global user.email "aneelatwork@gmail.com"
+git config --global user.name "Aneel Rathore"
 
 

@@ -20,6 +20,19 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-chocolatey install git cmake llvm pyton pip sed neovim nodejs ninja keepass -y
-pip install conan cpplint
+
+#Set-ExecutionPolicy Bypass -Scope Process -Force
+winget install -e --id Git.Git
+winget install -e --id Kitware.CMake
+winget install -e --id LLVM.LLVM
+winget install -e --id Python.Python.3.13
+winget install -e --id mbuilov.sed
+winget install -e --id Neovim.Neovim
+winget install -e --id OpenJS.NodeJS
+winget install -e --id Ninja-build.Ninja
+winget install -e --id DominikReichl.KeePass
+winget install -e --id Kitware.CMake
+winget install -e --id JFrog.Conan
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+pip install cpplint
+
