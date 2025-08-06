@@ -27,15 +27,26 @@ if( $rep_dir -eq $null ) { exit 1 }
 set bld_dir "$( bd )"
 if( $bld_dir -eq $null ) { exit 1 }
 
-if( $args[0] -like "*t*" ) { md -p "$bld_dir" }
+if( $args[0] -like "*d*" )
+{ 
+    if (Test-Path -Path "$bld_dir")
+    {
+        rm -r "$bld_dir/*"
+    }
+    else
+    {
+        md -p "$bld_dir"
+    }
+}
+
 
 pushd "$bld_dir"
 
-if( $args[ 0 ] -like "*p*" ) { conan install "$rep_dir" }
+if( $args[ 0 ] -like "*p*" ) { conan install "$rep_dir" -pr debug -of . -c tools.cmake.cmaketoolchain:generator=Ninja }
 
 if( $args[ 0 ] -like "*[p|c]*" )
 {
-    cmake "$rep_dir" -G "Ninja" -DCMAKE_INSTALL_PREFIX="${Env:RAKS_WORK_ROOT}" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug
+    cmake -G "Ninja" "$rep_dir" -DCMAKE_INSTALL_PREFIX="${Env:RAKS_WORK_ROOT}" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
 }
 
 if( $args[ 0 ] -like "*b*" )
@@ -44,5 +55,6 @@ if( $args[ 0 ] -like "*b*" )
     cp "$bld_dir/compile_commands.json" "$rep_dir/compile_commands.json"
 }
 
+if( $args[ 0 ] -like "*t*" ) { ctest . }
 if( $args[ 0 ] -like "*i*" ) { cmake --install . }
 popd

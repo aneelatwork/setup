@@ -23,11 +23,11 @@
 
 #Set-ExecutionPolicy Bypass -Scope Process -Force
 winget install -e --id Git.Git
-winget install -e --id Kitware.CMake
 winget install -e --id LLVM.LLVM
 winget install -e --id Python.Python.3.13
 winget install -e --id mbuilov.sed
 winget install -e --id Neovim.Neovim
+winget install -e --id DEVCOM.JetBrainsMonoNerdFont
 winget install -e --id OpenJS.NodeJS
 winget install -e --id Ninja-build.Ninja
 winget install -e --id DominikReichl.KeePass
