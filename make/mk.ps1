@@ -22,10 +22,10 @@
 
 echo "CALL $($args[ 0 ]) $($args[ 1 ])"
 set rep_dir "$( bd r )"
-if( $rep_dir -eq $null ) { exit 1 }
+if( !$rep_dir ) { exit 1 }
 
 set bld_dir "$( bd )"
-if( $bld_dir -eq $null ) { exit 1 }
+if( !$bld_dir ) { exit 1 }
 
 if( $args[0] -like "*d*" )
 { 
