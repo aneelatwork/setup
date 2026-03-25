@@ -46,4 +46,5 @@ if( $args[ 0 ] -like "*b*" )
 }
 
 if( $args[ 0 ] -like "*t*" ) { ctest . --rerun-failed --output-on-failure }
-if( $args[ 0 ] -like "*i*" ) { conan export-pkg . -s build_type=Debug }
+if( $args[ 0 ] -like "*i*" ) { conan create . -pr "$(args[ 1 ])" }
+if( $args[ 0 ] -like "*e*" ) { conan export-pkg . -s build_type=Debug }
